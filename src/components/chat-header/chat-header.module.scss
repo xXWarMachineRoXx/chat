@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+}
+.agent-avatar {
+  justify-items: start;
+  cursor: pointer;
+  background-color: no-repeat padding-box border-box 3% 0% / cover scroll
+    url(https://static.wixstatic.com/media/d9657b20f1b9473f90815b9da211bb2a.jpg/v1/fit/w_924,h_520/d9657b20f1b9473f90815b9da211bb2a.jpg);
+  background-image: none;
+  background-repeat: repeat;
+  background-position: 0%;
+  background-size: auto;
+  background-attachment: scroll;
+  background-origin: padding-box;
+  background-clip: border-box;
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+.chat-header {
+  grid-template-rows: 4fr 4fr 1fr;
+  width: 400px;
+}

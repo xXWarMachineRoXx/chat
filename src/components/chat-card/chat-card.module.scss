@@ -1,0 +1,23 @@
+.chatCard:hover{
+    box-shadow: 0 0 10px 0 rgba(199, 199, 199, 0.2);
+    cursor:pointer;
+    border: lightgrey dotted .1px;
+
+}
+
+.chatCard{
+    background-color: darkslategrey;
+    height: 100%;
+    padding: 0;
+    margin: 0 !important;
+    border: darkgrey solid .1px;
+
+}
+
+.chatCardText{
+    margin:0;
+}
+// .chatCardTitle{
+   
+   
+// }
