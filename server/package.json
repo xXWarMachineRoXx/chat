@@ -10,5 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
-  }
+  },
+  "proxy": "http://182.69.180.80:8081"
 }
