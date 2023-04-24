@@ -1,19 +1,23 @@
 const axios = require('axios');
+let data = '{"email" :"john@acme.inc",\r\n "password" : "Password1!"}';
 
 let config = {
-  method: 'get',
+  method: 'post',
   maxBodyLength: Infinity,
-  url: 'https://app.chatwoot.com//api/v1/accounts/81256/conversations?status=open&sort_by=last_activity_at',
+  url: 'http://192.168.1.80:3000//auth/sign_in',
   headers: { 
-    'api_access_token': '3QnqCzmLdSTYJFFSjuriLXC5', 
-    
-  }
+    'Accept': 'application/json', 
+    'Content-Type': 'application/json', 
+    'Cookie': '__profilin=p%3Dt'
+  },
+  data : data
 };
 
 axios.request(config)
 .then((response) => {
-  console.log(JSON.stringify(response.data));
+  console.log(JSON.stringify(response.data,null,1));
 })
 .catch((error) => {
-  console.log(error);
+  // console.log(error);
+  console.log(error.response.data.errors)
 });
