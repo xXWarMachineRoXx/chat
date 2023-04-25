@@ -8,7 +8,7 @@ export interface ChatCardProps {
   key: number;
   text: string;
   userName: string;
-  chatId: string;
+  chatId: number;
 }
 
 const ChatCard: React.FC<ChatCardProps> = ({ text, userName, chatId }) => {

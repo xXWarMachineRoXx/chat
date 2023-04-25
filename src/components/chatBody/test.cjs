@@ -18,6 +18,5 @@ axios.request(config)
   console.log(JSON.stringify(response.data,null,1));
 })
 .catch((error) => {
-  // console.log(error);
   console.log(error.response.data.errors)
 });
