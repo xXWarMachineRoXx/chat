@@ -10,7 +10,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<ChatBody url='http://localhost:8081/conversations/' />} />
-          <Route path="/chat/:chatId" element={<ChatContent url='http://localhost:8081/conversations/2/messages' />} />
+          <Route path="/chat/:chatId" element={<ChatContent url='http://localhost:8081/conversations/' />} />
         </Routes>
       </Router>
     </>
