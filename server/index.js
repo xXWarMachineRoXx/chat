@@ -113,58 +113,50 @@ app.get('/conversations/:conversationId/messages', (req, res) => {
 
   // TODO: Use the conversationId and after parameters to fetch the appropriate messages
   // and return them in the response
-  // let config = {
-  //   method: 'get',
-  //   maxBodyLength: Infinity,
-  //   url: process.env.host_url + '/api/v1/accounts/2/conversations/' + conversationId + '/messages?after=0',
-  //   headers: {
-  //     'api_access_token': process.env.api_access_token,
-  //   }
-  // };
-
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: 'http://192.168.1.80:3000/api/v1/accounts/2/conversations/'+conversationId+'/messages?after=0',
-    headers: { 
-      'api_access_token': 'TrBdJMLTdAS4f3tQvtvETTuF',
+    url: process.env.host_url + '/api/v1/accounts/2/conversations/' + conversationId + '/messages?after=0',
+    headers: {
+      'api_access_token': process.env.api_access_token,
     }
   };
+
   console.time(`conversations/:conversationId/messages request`)
 
   axios.request(config)
     .then((response) => {
-      console.log('\n========= Conversations/' + conversationId+'/messages============\n\n')
+      console.log('\n========= Conversations/' + conversationId + '/messages============\n\n')
       res.send(response.data);
 
       requests_count++;
-      console.log("consolidated keys:",Object.keys(response.data))
-      console.log("requests count :",requests_count)
+      console.log("consolidated keys:", Object.keys(response.data))
+      console.log("requests count :", requests_count)
       console.timeEnd(`conversations/:conversationId/messages request`)
-      
+
       console.log('\n=======================================\n\n')
-      
+
 
 
 
     })
     .catch((error) => {
-      console.log('\x1b[31m%s\x1b[0m', '\n===========ERROR : (Conversations/' + conversationId+'/messages) ==========\n\n');
-      console.error(" Error Message: ",error.message);
-      console.error('\x1b[33m',"Probable Cause :  route : /conversations/:conversationId="+conversationId+" does not exist","\x1b[0m",);
-      console.error(" Method: ",error.config.method);
+      console.log('\x1b[31m%s\x1b[0m', '\n===========ERROR : (Conversations/' + conversationId + '/messages) ==========\n\n');
+      console.error(" Error Message: ", error.message);
+      console.error('\x1b[33m', "Probable Cause :  route : /conversations/:conversationId=" + conversationId + " does not exist", "\x1b[0m",);
+      console.error(" Method: ", error.config.method);
 
-      console.error(' Request Url: ',error.request.path);
-      console.error(" Redirected Url: ",error.config.url);
+      console.error(' Request Url: ', error.request.path);
+      console.error(" Redirected Url: ", error.config.url);
 
-      console.error(" Error Code: ",error.code);
-      console.error(" Headers :\n",error.config.headers);
+      console.error(" Error Code: ", error.code);
+      console.error(" Headers :\n", error.config.headers);
       // console.error("Error Data:",error.data);
-      console.log('\x1b[31m%s\x1b[0m', '\n===========ERROR : (Conversations/' + conversationId+'/messages) ==========\n\n');
+      console.log('\x1b[31m%s\x1b[0m', '\n===========ERROR : (Conversations/' + conversationId + '/messages) ==========\n\n');
 
 
 
-      
+
     });
 
 });
@@ -172,7 +164,38 @@ app.get('/conversations/:conversationId/messages', (req, res) => {
 
 
 
+app.post('/conversations/:conversationId/messages/', (req, res) => {
 
+  // Extracts conversationId request
+  const conversationId = req.params.conversationId;
+
+  // Extract any additional query parameters from the request
+  const after = req.query.after;
+
+  let data = JSON.stringify(req.body);
+
+
+  let config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: process.env.host_url+'/api/v1/accounts/2/conversations/'+conversationId+'/messages',
+    headers: {
+      'Content-Type': 'application/json',
+      'api_access_token': process.env.api_access_token,
+    },
+    data: data
+  };
+
+  axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      res.send(response.data)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+});
 
 // parse application/json
 app.use(bodyParser.json());

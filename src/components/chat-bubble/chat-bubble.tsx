@@ -3,7 +3,7 @@ import { Badge } from 'react-bootstrap';
 
 interface ChatBubbleProps {
 
-
+  imageUrl: string;
   chatContent: string;
   createdAt: number;
   ours: boolean;
@@ -12,8 +12,9 @@ interface ChatBubbleProps {
 
 
 const ChatBubble = (props: ChatBubbleProps) => {
-  const { createdAt, chatContent, ours } = props;
+  const { createdAt, chatContent, ours,imageUrl } = props;
   var date = new Date(createdAt * 1000);
+  
 
   const bubbleStyle: CSSProperties = {
     // textAlign: ours ? 'right' : 'left',
@@ -35,13 +36,14 @@ const ChatBubble = (props: ChatBubbleProps) => {
 
   return (
     <div style={bubbleStyle}>
-
-      <div>{chatContent}</div>
+      {<div>{chatContent}</div>}
+      {imageUrl && <img src={imageUrl} alt="Avatar" style={{ width: '100px', height: '100px' }} />}
       <span style={badgeStyle}>
         <Badge bg="secondary">{createdAt}</Badge>
       </span>
     </div>
   );
+  
 };
 
 export default ChatBubble;

@@ -1,8 +1,9 @@
 import { Link, useParams } from 'react-router-dom';
-import { ChevronLeft } from 'react-bootstrap-icons';
-import { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import { ChevronLeft,SendFill } from 'react-bootstrap-icons';
+import { useEffect, useState, SyntheticEvent } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import ChatBubble from '../chat-bubble/chat-bubble';
+
 
 
 interface ChatContentURL {
@@ -44,9 +45,15 @@ interface ChatBubbleProps {
 	ours: boolean;
 }
 const ChatContent = ({ url }: ChatContentURL) => {
+	const [text, setText] = useState('');
 	const chatId = useParams<{ chatId: string }>();
+
 	url = url + chatId.chatId + '/messages';
 	console.log("url", url)
+	if (chatId.chatId === '0' || chatId.chatId === 'undefined') {
+		return (<h1> Chat {chatId.chatId} does not exist</h1>);
+	}
+
 
 	const [chatMessages, setChatMessages] = useState<ChatBubbleProps[]>([]);
 
@@ -72,10 +79,8 @@ const ChatContent = ({ url }: ChatContentURL) => {
 				const chatContent: string = message.content;
 				const createdAt: number = message.created_at;
 				let ours = true;
-				if (message.sender.type !== "user") {
+				if (message.sender?.type !== "user") {
 					ours = false;
-				}else{
-					ours = true;
 				}
 				return { chatContent, createdAt, ours };
 			});
@@ -88,25 +93,56 @@ const ChatContent = ({ url }: ChatContentURL) => {
 		});
 	}, []);
 
+	const handleSubmit = async (event: SyntheticEvent) => {
+		event.preventDefault();
+		try {
+
+			const response = await fetch('http://localhost:8081/conversations/' + chatId.chatId + '/messages/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					content: text,
+					message_type: "outgoing",
+					private: false
+				})
+			});
+			const data = await response.json();
+			console.log("data", data)
+			
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+
+	const handleChange = (event: SyntheticEvent) => {
+		setText((event.target as HTMLInputElement).value);
+		console.log("text", text);
+		console.log("event", event);
+	};
+
+
 	return (
 		<>
 			<Link to={`/`}><ChevronLeft style={{ cursor: 'pointer' }} /></Link>
 			{/* {userData} */}
 			<div style={{ height: '200px', overflowY: 'scroll' }}>
-				<ChatBubble chatContent="Hello" createdAt={12} ours={true} />
-				<ChatBubble chatContent="Hi" createdAt={13} ours={false} />
-				<ChatBubble chatContent="How are you ?" createdAt={14} ours={true} />
+				<ChatBubble imageUrl="https://via.placeholder.com/100x100" createdAt={1} ours={true} chatContent='' />
 				{chatMessages.map((chatBubble: ChatBubbleProps) => {
-					return <ChatBubble chatContent={chatBubble.chatContent} createdAt={chatBubble.createdAt} ours={chatBubble.ours} />
+					return <ChatBubble imageUrl='' key={Math.floor(Math.random() * 10020) + 1} chatContent={chatBubble.chatContent} createdAt={chatBubble.createdAt} ours={chatBubble.ours} />
 				})}
 
 			</div>
-			{chatId.chatId}
+
 			<div>
-				<Form>
+				<Form onSubmit={handleSubmit} >
 					<Form.Group controlId="exampleForm.ControlTextarea1">
-						<Form.Control as="textarea" rows={3} />
+						<Form.Control as="textarea" rows={3} onChange={handleChange} value={text} />
+						<Button style={{bottom: '15px',position: 'relative'	}} type="submit"><SendFill/></Button>
 					</Form.Group>
+					
 				</Form>
 			</div>
 		</>
@@ -114,3 +150,7 @@ const ChatContent = ({ url }: ChatContentURL) => {
 };
 
 export default ChatContent;
+
+
+
+  
