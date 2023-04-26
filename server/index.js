@@ -165,7 +165,7 @@ app.get('/conversations/:conversationId/messages', (req, res) => {
 
 
 app.post('/conversations/:conversationId/messages/', (req, res) => {
-
+  console.log("req",req.body)
   // Extracts conversationId request
   const conversationId = req.params.conversationId;
 
