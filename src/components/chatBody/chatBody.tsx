@@ -32,8 +32,7 @@ function ChatBody({url }: ChatBodyProps) {
     makeAPICall()
   }, [cardData, cardsQuantity]);
   
- 
-  
+
   useEffect(() => {
     const newCards = [];
     if (cardsQuantity && cardData.length > 0) { // add checks to ensure all_count and cardData exist
@@ -41,7 +40,7 @@ function ChatBody({url }: ChatBodyProps) {
       
       for (let i = 0; i < cardsQuantity; i++) {
         if (cardData[i] && cardData[i].messages && cardData[i].messages.length > 0) { // add a check to ensure messages exist
-          const cardProps: ChatCardProps = { key: i, text: cardData[i].messages[0].content, userName: cardData[i].meta.sender.name, chatId: `${i}` };
+          const cardProps: ChatCardProps = { key: i, text: cardData[i].messages[0].content, userName: cardData[i].meta.sender.name, chatId: i+1 };
           newCards.push(<ChatCard {...cardProps} />);
         }
       }

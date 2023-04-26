@@ -50,7 +50,7 @@ app.get('/conversations', (req, res) => {
 
     })
     .catch((error) => {
-      console.log(error);
+      // console.error(error.data);
       res.sendStatus(2)
     });
   console.timeEnd(`RESPONSE TIME request`)
@@ -98,7 +98,7 @@ app.get('/conversations/meta', (req, res) => {
 })
 
 
-//** */
+//***/
 //** routes */
 //** GET  conversations/:conversationId/messages */
 //** get specific conversations messages  */
@@ -113,12 +113,21 @@ app.get('/conversations/:conversationId/messages', (req, res) => {
 
   // TODO: Use the conversationId and after parameters to fetch the appropriate messages
   // and return them in the response
+  // let config = {
+  //   method: 'get',
+  //   maxBodyLength: Infinity,
+  //   url: process.env.host_url + '/api/v1/accounts/2/conversations/' + conversationId + '/messages?after=0',
+  //   headers: {
+  //     'api_access_token': process.env.api_access_token,
+  //   }
+  // };
+
   let config = {
     method: 'get',
     maxBodyLength: Infinity,
-    url: process.env.host_url + '/api/v1/accounts/2/conversations/' + conversationId + '/messages?after=0',
-    headers: {
-      'api_access_token': process.env.api_access_token,
+    url: 'http://192.168.1.80:3000/api/v1/accounts/2/conversations/'+conversationId+'/messages?after=0',
+    headers: { 
+      'api_access_token': 'TrBdJMLTdAS4f3tQvtvETTuF',
     }
   };
   console.time(`conversations/:conversationId/messages request`)
@@ -140,7 +149,22 @@ app.get('/conversations/:conversationId/messages', (req, res) => {
 
     })
     .catch((error) => {
-      console.log(error);
+      console.log('\x1b[31m%s\x1b[0m', '\n===========ERROR : (Conversations/' + conversationId+'/messages) ==========\n\n');
+      console.error(" Error Message: ",error.message);
+      console.error('\x1b[33m',"Probable Cause :  route : /conversations/:conversationId="+conversationId+" does not exist","\x1b[0m",);
+      console.error(" Method: ",error.config.method);
+
+      console.error(' Request Url: ',error.request.path);
+      console.error(" Redirected Url: ",error.config.url);
+
+      console.error(" Error Code: ",error.code);
+      console.error(" Headers :\n",error.config.headers);
+      // console.error("Error Data:",error.data);
+      console.log('\x1b[31m%s\x1b[0m', '\n===========ERROR : (Conversations/' + conversationId+'/messages) ==========\n\n');
+
+
+
+      
     });
 
 });
