@@ -29,6 +29,6 @@
     "http-proxy-middleware": "^2.0.6",
     "sass": "^1.62.0",
     "typescript": "^5.0.4",
-    "vite": "^4.2.1"
+    "vite": "^4.2.3"
   }
 }
